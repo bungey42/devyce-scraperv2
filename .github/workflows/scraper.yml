@@ -1,0 +1,20 @@
+name: Devyce Scraper
+
+on:
+  schedule:
+    - cron: "*/10 8-17 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: node devyce-scraper.js
+        env:
+          DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
+          DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
