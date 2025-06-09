@@ -29,7 +29,7 @@
   },
   {
     "User": "Jack Perks",
-    "User Status": "Engaged",
+    "User Status": "Available",
     "Outbound Calls": "22",
     "Outbound Calls Answered": "20",
     "Outbound Calls Answered %": "91%",
@@ -37,9 +37,9 @@
     "Inbound Calls": "3",
     "Inbound Calls Answered": "2",
     "Inbound Calls Answered %": "67%",
-    "Inbound Duration": "3m 24s",
+    "Inbound Duration": "12m 32s",
     "Total Calls": "25",
-    "Total Duration": "29m 33s"
+    "Total Duration": "38m 41s"
   },
   {
     "User": "Oscar Dixon-Barrow",
