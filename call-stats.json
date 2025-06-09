@@ -34,12 +34,12 @@
     "Outbound Calls Answered": "20",
     "Outbound Calls Answered %": "91%",
     "Outbound Duration": "26m 9s",
-    "Inbound Calls": "3",
-    "Inbound Calls Answered": "2",
-    "Inbound Calls Answered %": "67%",
-    "Inbound Duration": "12m 32s",
-    "Total Calls": "25",
-    "Total Duration": "38m 41s"
+    "Inbound Calls": "4",
+    "Inbound Calls Answered": "3",
+    "Inbound Calls Answered %": "75%",
+    "Inbound Duration": "12m 46s",
+    "Total Calls": "26",
+    "Total Duration": "38m 55s"
   },
   {
     "User": "Oscar Dixon-Barrow",
@@ -127,7 +127,7 @@
   },
   {
     "User": "Molly McGuire",
-    "User Status": "Available",
+    "User Status": "Engaged",
     "Outbound Calls": "6",
     "Outbound Calls Answered": "5",
     "Outbound Calls Answered %": "83%",
