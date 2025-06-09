@@ -112,7 +112,21 @@ jobs:
               }
 
               function durationToMinutes(str) {
-                const [h = 0, m = 0, s = 0] = (str || "0:00:00").split(':').map(Number);
+                if (!str) return 0;
+                let h = 0, m = 0, s = 0;
+
+                const hourMatch = str.match(/(\\d+)\\s*h/);
+                const minuteMatch = str.match(/(\\d+)\\s*m/);
+                const secondMatch = str.match(/(\\d+)\\s*s/);
+
+                if (hourMatch) h = Number(hourMatch[1]);
+                if (minuteMatch) m = Number(minuteMatch[1]);
+                if (secondMatch) s = Number(secondMatch[1]);
+
+                if (!hourMatch && !minuteMatch && !secondMatch) {
+                  [h = 0, m = 0, s = 0] = str.split(':').map(Number);
+                }
+
                 return h * 60 + m + s / 60;
               }
 
