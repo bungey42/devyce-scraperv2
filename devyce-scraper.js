@@ -40,16 +40,13 @@ const path = require('path');
 
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  await page.goto('https://portal.devyce.io/dashboard/live-call-stats?current=1&pageSize=10', {
-    waitUntil: 'networkidle2',
-  });
-
-  // Grab all table pages
+  const baseUrl = 'https://portal.devyce.io/dashboard/live-call-stats';
   let fullData = [];
-  let hasNextPage = true;
-  let currentPage = 1;
+  let current = 1;
 
-  while (hasNextPage) {
+  while (true) {
+    const url = `${baseUrl}?current=${current}&pageSize=10`;
+    await page.goto(url, { waitUntil: 'networkidle2' });
     await page.waitForSelector('table');
 
     const tableData = await page.evaluate(() => {
@@ -66,22 +63,14 @@ const path = require('path');
       });
     });
 
+    if (!tableData.length) break;
     fullData = fullData.concat(tableData);
-
-    const nextBtn = await page.$('button[aria-label="Next page"]:not([disabled])');
-    if (nextBtn) {
-      await nextBtn.click();
-      await page.waitForTimeout(1500); // Wait for the next page to load
-      currentPage++;
-    } else {
-      hasNextPage = false;
-    }
+    current++;
   }
 
   fs.writeFileSync('call-stats.json', JSON.stringify(fullData, null, 2));
   console.log('✅ call-stats.json saved');
 
-  // Archive daily snapshot at 11pm
   const now = new Date();
   if (now.getHours() === 23) {
     const dateStr = now.toISOString().split('T')[0];
