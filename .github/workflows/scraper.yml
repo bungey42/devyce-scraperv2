@@ -2,45 +2,44 @@ name: Devyce Scraper
 
 on:
   schedule:
-    - cron: "*/10 8-16 * * 1-5"     # Every 10 mins from 9am-5pm UK (Mon-Fri)
-    - cron: "0 22 * * 1-5"          # 11pm UK (archive run, Mon-Fri)
+    - cron: '*/10 8-17 * * 1-5' # Every 10 minutes between 08:00–17:59 Mon–Fri
+    - cron: '0 23 * * 1-5'      # 11pm Mon–Fri for archival
   workflow_dispatch:
 
 jobs:
-  run-scraper:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run scraper
+      - name: Run Devyce scraper
         run: node devyce-scraper.js
         env:
           DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
           DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
 
-      - name: Prepare output
+      - name: Generate weekly summary
+        run: node archive-summary.js
+
+      - name: Copy dashboard files to output
         run: |
-          mkdir output
-          cp call-stats.json output/
-
-          node archive-summary.js
-
-          cp weekly-summary.json output/
+          mkdir -p output
           cp index.html output/
+          cp call-stats.json output/
+          cp weekly-summary.json output/
+          cp mustard_green_RGB_black.png output/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./output
-          publish_branch: gh-pages
