@@ -2,7 +2,7 @@ name: Devyce Scraper
 
 on:
   schedule:
-    - cron: "*/10 8-17 * * *"
+    - cron: "*/10 8-17 * * *"  # every 10 minutes, 8am–5:59pm UTC
   workflow_dispatch:
 
 jobs:
@@ -10,23 +10,81 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      - run: node devyce-scraper.js
+      - name: Run scraper
+        run: node devyce-scraper.js
         env:
           DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
           DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
 
-      - name: Copy output file
+      - name: Prepare files for GitHub Pages
         run: |
           mkdir output
           cp call-stats.json output/
+
+          # Create index.html for dashboard
+          cat <<EOF > output/index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <title>Devyce Call Stats</title>
+            <style>
+              body { font-family: sans-serif; padding: 2rem; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+              th { background: #f5f5f5; }
+            </style>
+          </head>
+          <body>
+            <h2>📞 Devyce Live Call Stats</h2>
+            <p>Auto-refreshes every 60 seconds.</p>
+            <table id="callTable"><thead></thead><tbody></tbody></table>
+            <script>
+              async function loadCallStats() {
+                try {
+                  const res = await fetch('call-stats.json');
+                  const data = await res.json();
+                  const table = document.getElementById('callTable');
+                  const thead = table.querySelector('thead');
+                  const tbody = table.querySelector('tbody');
+                  thead.innerHTML = ''; tbody.innerHTML = '';
+                  if (!data.length) return;
+                  const headers = Object.keys(data[0]);
+                  const headerRow = document.createElement('tr');
+                  headers.forEach(h => {
+                    const th = document.createElement('th');
+                    th.textContent = h; headerRow.appendChild(th);
+                  });
+                  thead.appendChild(headerRow);
+                  data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    headers.forEach(h => {
+                      const td = document.createElement('td');
+                      td.textContent = row[h]; tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                  });
+                } catch (err) {
+                  console.error('Failed to load stats:', err);
+                }
+              }
+              loadCallStats();
+              setInterval(loadCallStats, 60000);
+            </script>
+          </body>
+          </html>
+          EOF
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
