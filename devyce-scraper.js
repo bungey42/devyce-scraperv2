@@ -17,7 +17,6 @@ const path = require('path');
   await page.type('#username', process.env.DEVYCE_EMAIL);
   await page.keyboard.press('Enter');
 
-  // Retry password selector
   let passwordLoaded = false;
   for (let attempt = 0; attempt < 5; attempt++) {
     try {
@@ -43,8 +42,9 @@ const path = require('path');
   const baseUrl = 'https://portal.devyce.io/dashboard/live-call-stats';
   let fullData = [];
   let current = 1;
+  const maxPages = 10; // cap to avoid infinite loop
 
-  while (true) {
+  while (current <= maxPages) {
     const url = `${baseUrl}?current=${current}&pageSize=10`;
     await page.goto(url, { waitUntil: 'networkidle2' });
     await page.waitForSelector('table');
