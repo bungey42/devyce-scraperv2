@@ -8,21 +8,27 @@ on:
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - run: npm install
+
       - run: node devyce-scraper.js
         env:
           DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
           DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
-    - name: Deploy call-stats.json to GitHub Pages
-      run: |
-        mkdir output
-        cp call-stats.json output/
-      - name: Push to gh-pages branch
+
+      - name: Copy output file
+        run: |
+          mkdir output
+          cp call-stats.json output/
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
