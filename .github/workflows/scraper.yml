@@ -2,7 +2,8 @@ name: Devyce Scraper
 
 on:
   schedule:
-    - cron: "*/10 8-16 * * *"  # Every 10 minutes from 9am–5pm UK time (8–16 UTC)
+    - cron: "*/10 8-16 * * 1-5"     # Every 10 mins from 9am-5pm UK (Mon-Fri)
+    - cron: "0 22 * * 1-5"          # 11pm UK (archive run, Mon-Fri)
   workflow_dispatch:
 
 jobs:
@@ -27,127 +28,15 @@ jobs:
           DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
           DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
 
-      - name: Prepare output folder
+      - name: Prepare output
         run: |
           mkdir output
           cp call-stats.json output/
 
-          cat <<EOF > output/index.html
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <title>Devyce Call Stats</title>
-            <style>
-              body { font-family: sans-serif; padding: 2rem; max-width: 1000px; margin: auto; }
-              table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-              th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-              th { background: #f5f5f5; }
-            </style>
-          </head>
-          <body>
-            <h2>📞 Devyce Live Call Stats</h2>
-            <p>Auto-refreshes every 60 seconds. Colors update to reflect progress toward today's live talk-time goal.</p>
-            <table id="callTable">
-              <thead></thead>
-              <tbody></tbody>
-            </table>
-            <script>
-              const columns = ["User", "Inbound Calls", "Outbound Calls", "Total Calls", "Total Duration"];
+          node archive-summary.js
 
-              async function loadCallStats() {
-                try {
-                  const res = await fetch('call-stats.json');
-                  const data = await res.json();
-                  renderTable(data);
-                } catch (err) {
-                  console.error('Failed to load stats:', err);
-                }
-              }
-
-              function renderTable(data) {
-                const table = document.getElementById('callTable');
-                const thead = table.querySelector('thead');
-                const tbody = table.querySelector('tbody');
-                thead.innerHTML = '';
-                tbody.innerHTML = '';
-
-                if (!data.length) return;
-
-                data.sort((a, b) => durationToMinutes(b["Total Duration"]) - durationToMinutes(a["Total Duration"]));
-
-                const headerRow = document.createElement('tr');
-                columns.forEach(col => {
-                  const th = document.createElement('th');
-                  th.textContent = col;
-                  headerRow.appendChild(th);
-                });
-                thead.appendChild(headerRow);
-
-                const expectedMins = getExpectedMinsSoFar();
-                data.forEach(row => {
-                  const tr = document.createElement('tr');
-                  columns.forEach(col => {
-                    const td = document.createElement('td');
-                    td.textContent = row[col] || "";
-
-                    if (col === "Total Duration") {
-                      const mins = durationToMinutes(row[col]);
-                      if (mins >= expectedMins * 0.9) {
-                        td.style.background = '#d4edda';
-                        td.style.color = '#155724';
-                      } else if (mins >= expectedMins * 0.6) {
-                        td.style.background = '#fff3cd';
-                        td.style.color = '#856404';
-                      } else {
-                        td.style.background = '#f8d7da';
-                        td.style.color = '#721c24';
-                      }
-                    }
-
-                    tr.appendChild(td);
-                  });
-                  tbody.appendChild(tr);
-                });
-              }
-
-              function durationToMinutes(str) {
-                if (!str) return 0;
-                let h = 0, m = 0, s = 0;
-
-                const hourMatch = str.match(/(\\d+)\\s*h/);
-                const minuteMatch = str.match(/(\\d+)\\s*m/);
-                const secondMatch = str.match(/(\\d+)\\s*s/);
-
-                if (hourMatch) h = Number(hourMatch[1]);
-                if (minuteMatch) m = Number(minuteMatch[1]);
-                if (secondMatch) s = Number(secondMatch[1]);
-
-                if (!hourMatch && !minuteMatch && !secondMatch) {
-                  [h = 0, m = 0, s = 0] = str.split(':').map(Number);
-                }
-
-                return h * 60 + m + s / 60;
-              }
-
-              function getExpectedMinsSoFar() {
-                const now = new Date();
-                const start = new Date(now);
-                start.setHours(9, 0, 0, 0);
-                const end = new Date(now);
-                end.setHours(17, 0, 0, 0);
-                if (now < start) return 0;
-                if (now > end) return 120;
-                const elapsed = (now - start) / 60000;
-                return Math.round((elapsed / 480) * 120);
-              }
-
-              loadCallStats();
-              setInterval(loadCallStats, 60000);
-            </script>
-          </body>
-          </html>
-          EOF
+          cp weekly-summary.json output/
+          cp index.html output/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
