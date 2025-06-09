@@ -12,6 +12,10 @@
       color: #333;
       margin: 0;
     }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
     header {
       display: flex;
       align-items: center;
@@ -79,28 +83,30 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="mustard_green_RGB_black.png" alt="mustard Jobs logo">
-    <h2>📞 Devyce Live Call Stats</h2>
-  </header>
+  <div class="container">
+    <header>
+      <img src="mustard_green_RGB_black.png" alt="mustard Jobs logo">
+      <h2>📞 Devyce Live Call Stats</h2>
+    </header>
 
-  <div>
-    <label for="toggleView">View:</label>
-    <select id="toggleView">
-      <option value="daily">Today</option>
-      <option value="weekly">This Week</option>
-    </select>
-  </div>
-  <p id="lastUpdated"></p>
-  <table id="callTable">
-    <thead></thead>
-    <tbody></tbody>
-  </table>
-  <div class="legend">
-    <strong>Legend:</strong>
-    <span class="green-label">90%+ of target</span>
-    <span class="amber-label">60–89%</span>
-    <span class="red-label">Below 60%</span>
+    <div>
+      <label for="toggleView">View:</label>
+      <select id="toggleView">
+        <option value="daily">Today</option>
+        <option value="weekly">This Week</option>
+      </select>
+    </div>
+    <p id="lastUpdated"></p>
+    <table id="callTable">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <div class="legend">
+      <strong>Legend:</strong>
+      <span class="green-label">90%+ of target</span>
+      <span class="amber-label">60–89%</span>
+      <span class="red-label">Below 60%</span>
+    </div>
   </div>
 
   <script>
