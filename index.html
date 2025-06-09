@@ -2,22 +2,26 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Devyce Call Stats | Mustard Jobs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devyce Call Stats | mustard Jobs</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f3f3f3;
       padding: 20px;
       color: #333;
+      margin: 0;
     }
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       margin-bottom: 20px;
     }
     header img {
       height: 40px;
+      margin-bottom: 10px;
     }
     h2 {
       margin: 0;
@@ -28,11 +32,14 @@
       border-collapse: collapse;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+      display: block;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 10px;
       text-align: left;
+      font-size: 0.9rem;
     }
     th {
       background-color: #eaeaea;
@@ -53,12 +60,27 @@
     .green-label { background-color: #d4edda; }
     .amber-label { background-color: #fff3cd; }
     .red-label { background-color: #f8d7da; }
-    #toggleView { margin-top: 10px; }
+    #toggleView {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        padding: 6px;
+        font-size: 0.8rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      #toggleView {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="mustard_green_RGB_black.png" alt="Mustard Jobs logo">
+    <img src="mustard_green_RGB_black.png" alt="mustard Jobs logo">
     <h2>📞 Devyce Live Call Stats</h2>
   </header>
 
