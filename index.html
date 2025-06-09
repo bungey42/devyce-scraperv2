@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devyce Call Stats | mustard</title>
+  <title>Devyce Call Stats | mustard jobs</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -43,6 +43,7 @@
       padding: 10px;
       text-align: left;
       font-size: 0.9rem;
+      cursor: pointer;
     }
     th {
       background-color: #eaeaea;
@@ -84,7 +85,7 @@
 <body>
   <div class="container">
     <header>
-      <img src="mustard_green_RGB_black.png" alt="mustard Jobs logo">
+      <img src="mustard_green_RGB_black.png" alt="mustard jobs logo">
       <h2>📞 Devyce Live Call Stats</h2>
     </header>
 
@@ -118,6 +119,8 @@
       return h * 3600 + m * 60 + s;
     };
 
+    let currentSort = { key: 'Total Duration', ascending: false };
+
     const renderTable = (data, viewType) => {
       const table = document.getElementById('callTable');
       const thead = table.querySelector('thead');
@@ -126,16 +129,42 @@
       tbody.innerHTML = '';
       if (!data.length) return;
 
-      const headers = ['User', 'Inbound Calls', 'Outbound Calls', 'Total Calls', 'Total Duration'];
+      const headers = ['Users', 'Inbound Calls', 'Outbound Calls', 'Total Calls', 'Total Duration'];
       const headerRow = document.createElement('tr');
       headers.forEach(h => {
         const th = document.createElement('th');
         th.textContent = h;
+        th.addEventListener('click', () => {
+          const key = h;
+          if (currentSort.key === key) {
+            currentSort.ascending = !currentSort.ascending;
+          } else {
+            currentSort = { key, ascending: true };
+          }
+          renderTable(data, viewType);
+        });
         headerRow.appendChild(th);
       });
       thead.appendChild(headerRow);
 
-      data.sort((a, b) => parseDurationToSeconds(b['Total Duration']) - parseDurationToSeconds(a['Total Duration']));
+      const key = currentSort.key;
+      const ascending = currentSort.ascending;
+
+      data.sort((a, b) => {
+        let valA = a[key];
+        let valB = b[key];
+        if (key === 'Total Duration') {
+          valA = parseDurationToSeconds(valA);
+          valB = parseDurationToSeconds(valB);
+        } else if (!isNaN(valA) && !isNaN(valB)) {
+          valA = Number(valA);
+          valB = Number(valB);
+        } else {
+          valA = valA.toString();
+          valB = valB.toString();
+        }
+        return ascending ? valA - valB : valB - valA;
+      });
 
       const now = new Date();
       const currentHour = now.getHours();
