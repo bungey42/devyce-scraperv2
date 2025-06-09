@@ -1,128 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Devyce Call Stats</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; max-width: 1000px; margin: auto; }
-    input { margin-bottom: 1rem; padding: 8px; width: 100%; }
-    table { width: 100%; border-collapse: collapse; }
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f5f5f5; }
+    th { background-color: #f0f0f0; }
+    .green { background-color: #d4edda; }
+    .amber { background-color: #fff3cd; }
+    .red { background-color: #f8d7da; }
+    .legend { margin-top: 15px; }
+    .legend span { display: inline-block; padding: 5px 10px; margin-right: 10px; border-radius: 4px; }
+    .green-label { background-color: #d4edda; }
+    .amber-label { background-color: #fff3cd; }
+    .red-label { background-color: #f8d7da; }
+    #toggleView { margin-top: 10px; }
   </style>
 </head>
 <body>
   <h2>📞 Devyce Live Call Stats</h2>
-  <p>Auto-refreshes every 60 seconds. Colors update to reflect progress toward today's live talk-time goal.</p>
-
-  <input type="text" id="searchInput" placeholder="Search by name...">
+  <div>
+    <label for="toggleView">View:</label>
+    <select id="toggleView">
+      <option value="daily">Today</option>
+      <option value="weekly">This Week</option>
+    </select>
+  </div>
+  <p id="lastUpdated"></p>
   <table id="callTable">
     <thead></thead>
     <tbody></tbody>
   </table>
+  <div class="legend">
+    <strong>Legend:</strong>
+    <span class="green-label">90%+ of target</span>
+    <span class="amber-label">60–89%</span>
+    <span class="red-label">Below 60%</span>
+  </div>
 
   <script>
-    const columns = [
-      "User",
-      "Inbound Calls",
-      "Outbound Calls",
-      "Total Calls",
-      "Total Duration"
-    ];
+    const dailyUrl = 'call-stats.json';
+    const weeklyUrl = 'weekly-summary.json';
 
-    let fullData = [];
+    const parseDurationToSeconds = str => {
+      const parts = str.match(/(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+)s)?/);
+      const h = parseInt(parts[1] || 0), m = parseInt(parts[2] || 0), s = parseInt(parts[3] || 0);
+      return h * 3600 + m * 60 + s;
+    };
 
-    async function loadCallStats() {
-      try {
-        const res = await fetch('call-stats.json');
-        const data = await res.json();
-        fullData = data;
-        renderTable(filterData(fullData));
-      } catch (err) {
-        console.error('Failed to load stats:', err);
-      }
-    }
-
-    function filterData(data) {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      return data.filter(row => row["Name"]?.toLowerCase().includes(query));
-    }
-
-    function renderTable(data) {
+    const renderTable = (data, viewType) => {
       const table = document.getElementById('callTable');
       const thead = table.querySelector('thead');
       const tbody = table.querySelector('tbody');
       thead.innerHTML = '';
       tbody.innerHTML = '';
-
       if (!data.length) return;
 
-      // Sort by Total Duration descending
-      data.sort((a, b) => durationToMinutes(b["Total Duration"]) - durationToMinutes(a["Total Duration"]));
-
+      const headers = ['Name', 'Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
       const headerRow = document.createElement('tr');
-      columns.forEach(col => {
+      headers.forEach(h => {
         const th = document.createElement('th');
-        th.textContent = col;
+        th.textContent = h;
         headerRow.appendChild(th);
       });
       thead.appendChild(headerRow);
 
-      const expectedMins = getExpectedMinsSoFar();
+      // sort by duration (high to low)
+      data.sort((a, b) => parseDurationToSeconds(b['Total Duration']) - parseDurationToSeconds(a['Total Duration']));
+
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      const targetSeconds = viewType === 'weekly' ? 36000 : ((currentHour - 9) * 3600 + currentMinute * 60) * 0.125;
 
       data.forEach(row => {
         const tr = document.createElement('tr');
-        columns.forEach(col => {
+        const durationSec = parseDurationToSeconds(row['Total Duration']);
+        const percent = durationSec / targetSeconds;
+        if (percent >= 0.9) tr.className = 'green';
+        else if (percent >= 0.6) tr.className = 'amber';
+        else tr.className = 'red';
+
+        headers.forEach(h => {
           const td = document.createElement('td');
-          td.textContent = row[col] || "";
-
-          if (col === "Total Duration") {
-            const mins = durationToMinutes(row[col]);
-
-            if (mins >= expectedMins) {
-              td.style.background = '#d4edda'; // green
-              td.style.color = '#155724';
-            } else if (mins >= expectedMins * 0.75) {
-              td.style.background = '#fff3cd'; // amber
-              td.style.color = '#856404';
-            } else {
-              td.style.background = '#f8d7da'; // red
-              td.style.color = '#721c24';
-            }
-          }
-
+          td.textContent = row[h] || '';
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
       });
-    }
+    };
 
-    function durationToMinutes(str) {
-      const [h = 0, m = 0, s = 0] = (str || "0:00:00").split(':').map(Number);
-      return h * 60 + m + s / 60;
-    }
+    const loadData = async (type) => {
+      const url = type === 'weekly' ? weeklyUrl : dailyUrl;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderTable(data, type);
 
-    function getExpectedMinsSoFar() {
-      const now = new Date();
-      const start = new Date(now);
-      start.setHours(9, 0, 0, 0); // 9:00 AM
-      const end = new Date(now);
-      end.setHours(17, 0, 0, 0); // 5:00 PM
+        const updated = new Date().toLocaleString('en-GB');
+        document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${updated}`;
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
+    };
 
-      if (now < start) return 0;
-      if (now > end) return 120;
-
-      const elapsed = (now - start) / 60000; // ms to mins
-      const expected = Math.round((elapsed / 480) * 120); // 480 mins in full day
-      return expected;
-    }
-
-    document.getElementById('searchInput').addEventListener('input', () => {
-      renderTable(filterData(fullData));
+    document.getElementById('toggleView').addEventListener('change', e => {
+      loadData(e.target.value);
     });
 
-    loadCallStats();
-    setInterval(loadCallStats, 60000);
+    loadData('daily'); // default
   </script>
 </body>
 </html>
