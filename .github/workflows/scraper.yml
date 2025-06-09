@@ -33,58 +33,127 @@ jobs:
           cp call-stats.json output/
 
           # Create index.html for dashboard
-          cat <<EOF > output/index.html
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <title>Devyce Call Stats</title>
-            <style>
-              body { font-family: sans-serif; padding: 2rem; }
-              table { width: 100%; border-collapse: collapse; }
-              th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-              th { background: #f5f5f5; }
-            </style>
-          </head>
-          <body>
-            <h2>📞 Devyce Live Call Stats</h2>
-            <p>Auto-refreshes every 60 seconds.</p>
-            <table id="callTable"><thead></thead><tbody></tbody></table>
-            <script>
-              async function loadCallStats() {
-                try {
-                  const res = await fetch('call-stats.json');
-                  const data = await res.json();
-                  const table = document.getElementById('callTable');
-                  const thead = table.querySelector('thead');
-                  const tbody = table.querySelector('tbody');
-                  thead.innerHTML = ''; tbody.innerHTML = '';
-                  if (!data.length) return;
-                  const headers = Object.keys(data[0]);
-                  const headerRow = document.createElement('tr');
-                  headers.forEach(h => {
-                    const th = document.createElement('th');
-                    th.textContent = h; headerRow.appendChild(th);
-                  });
-                  thead.appendChild(headerRow);
-                  data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    headers.forEach(h => {
-                      const td = document.createElement('td');
-                      td.textContent = row[h]; tr.appendChild(td);
-                    });
-                    tbody.appendChild(tr);
-                  });
-                } catch (err) {
-                  console.error('Failed to load stats:', err);
+          - name: Prepare files for GitHub Pages
+  run: |
+    mkdir output
+    cp call-stats.json output/
+
+    cat <<EOF > output/index.html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Devyce Call Stats</title>
+      <style>
+        body { font-family: sans-serif; padding: 2rem; max-width: 1000px; margin: auto; }
+        input { margin-bottom: 1rem; padding: 8px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f5f5f5; }
+      </style>
+    </head>
+    <body>
+      <h2>📞 Devyce Live Call Stats</h2>
+      <p>Auto-refreshes every 60 seconds. Colors update to reflect progress toward today's live talk-time goal.</p>
+
+      <input type="text" id="searchInput" placeholder="Search by name...">
+      <table id="callTable">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+
+      <script>
+        const columns = ["Name", "Inbound calls", "Outbound calls", "Total Calls", "Total Duration"];
+        let fullData = [];
+
+        async function loadCallStats() {
+          try {
+            const res = await fetch('call-stats.json');
+            const data = await res.json();
+            fullData = data;
+            renderTable(filterData(fullData));
+          } catch (err) {
+            console.error('Failed to load stats:', err);
+          }
+        }
+
+        function filterData(data) {
+          const query = document.getElementById('searchInput').value.toLowerCase();
+          return data.filter(row => row["Name"]?.toLowerCase().includes(query));
+        }
+
+        function renderTable(data) {
+          const table = document.getElementById('callTable');
+          const thead = table.querySelector('thead');
+          const tbody = table.querySelector('tbody');
+          thead.innerHTML = '';
+          tbody.innerHTML = '';
+
+          if (!data.length) return;
+
+          data.sort((a, b) => durationToMinutes(b["Total Duration"]) - durationToMinutes(a["Total Duration"]));
+          const headerRow = document.createElement('tr');
+          columns.forEach(col => {
+            const th = document.createElement('th');
+            th.textContent = col;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+
+          const expectedMins = getExpectedMinsSoFar();
+          data.forEach(row => {
+            const tr = document.createElement('tr');
+            columns.forEach(col => {
+              const td = document.createElement('td');
+              td.textContent = row[col] || "";
+
+              if (col === "Total Duration") {
+                const mins = durationToMinutes(row[col]);
+                if (mins >= expectedMins) {
+                  td.style.background = '#d4edda';
+                  td.style.color = '#155724';
+                } else if (mins >= expectedMins * 0.75) {
+                  td.style.background = '#fff3cd';
+                  td.style.color = '#856404';
+                } else {
+                  td.style.background = '#f8d7da';
+                  td.style.color = '#721c24';
                 }
               }
-              loadCallStats();
-              setInterval(loadCallStats, 60000);
-            </script>
-          </body>
-          </html>
-          EOF
+
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+        }
+
+        function durationToMinutes(str) {
+          const [h = 0, m = 0, s = 0] = (str || "0:00:00").split(':').map(Number);
+          return h * 60 + m + s / 60;
+        }
+
+        function getExpectedMinsSoFar() {
+          const now = new Date();
+          const start = new Date(now);
+          start.setHours(9, 0, 0, 0);
+          const end = new Date(now);
+          end.setHours(17, 0, 0, 0);
+          if (now < start) return 0;
+          if (now > end) return 120;
+          const elapsed = (now - start) / 60000;
+          return Math.round((elapsed / 480) * 120);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', () => {
+          renderTable(filterData(fullData));
+        });
+
+        loadCallStats();
+        setInterval(loadCallStats, 60000);
+      </script>
+    </body>
+    </html>
+    EOF
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
