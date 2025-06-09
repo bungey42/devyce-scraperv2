@@ -99,7 +99,7 @@
       tbody.innerHTML = '';
       if (!data.length) return;
 
-      const headers = ['Name', 'Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
+      const headers = ['User', 'Inbound Calls', 'Outbound Calls', 'Total Calls', 'Total Duration'];
       const headerRow = document.createElement('tr');
       headers.forEach(h => {
         const th = document.createElement('th');
