@@ -58,7 +58,7 @@
       tbody.innerHTML = '';
       if (!data.length) return;
 
-      const headers = ['User', 'Inbound Calls', 'Outbound Calls', 'Total Calls', 'Total Duration'];
+      const headers = ['Name', 'Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
       const headerRow = document.createElement('tr');
       headers.forEach(h => {
         const th = document.createElement('th');
@@ -67,18 +67,18 @@
       });
       thead.appendChild(headerRow);
 
-      // sort by duration (high to low)
       data.sort((a, b) => parseDurationToSeconds(b['Total Duration']) - parseDurationToSeconds(a['Total Duration']));
 
       const now = new Date();
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
-      const targetSeconds = viewType === 'weekly' ? 36000 : ((currentHour - 9) * 3600 + currentMinute * 60) * 0.125;
+      const secondsSince9am = Math.max(0, (currentHour - 9) * 3600 + currentMinute * 60);
+      const expectedSeconds = viewType === 'weekly' ? 36000 : Math.min(7200, secondsSince9am * (7200 / 28800));
 
       data.forEach(row => {
         const tr = document.createElement('tr');
         const durationSec = parseDurationToSeconds(row['Total Duration']);
-        const percent = durationSec / targetSeconds;
+        const percent = durationSec / expectedSeconds;
         if (percent >= 0.9) tr.className = 'green';
         else if (percent >= 0.6) tr.className = 'amber';
         else tr.className = 'red';
