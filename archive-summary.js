@@ -5,6 +5,12 @@ const path = require('path');
 const archiveDir = path.join(__dirname, 'weekly-data');
 const summaryFile = path.join(__dirname, 'weekly-summary.json');
 
+if (!fs.existsSync(archiveDir)) {
+  console.log('📂 weekly-data directory does not exist. Skipping summary generation.');
+  fs.writeFileSync(summaryFile, JSON.stringify([], null, 2));
+  process.exit(0);
+}
+
 function getWeekStartDate(date) {
   const d = new Date(date);
   const day = d.getDay();
