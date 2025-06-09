@@ -53,7 +53,7 @@ jobs:
               <tbody></tbody>
             </table>
             <script>
-              const columns = ["Name", "Inbound calls", "Outbound calls", "Total Calls", "Total Duration"];
+              const columns = ["User", "Inbound Calls", "Outbound Calls", "Total Calls", "Total Duration"];
 
               async function loadCallStats() {
                 try {
