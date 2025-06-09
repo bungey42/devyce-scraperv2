@@ -15,17 +15,17 @@
   },
   {
     "User": "Summer Bolitho",
-    "User Status": "Engaged",
-    "Outbound Calls": "3",
+    "User Status": "Available",
+    "Outbound Calls": "4",
     "Outbound Calls Answered": "2",
-    "Outbound Calls Answered %": "67%",
-    "Outbound Duration": "1m 29s",
+    "Outbound Calls Answered %": "50%",
+    "Outbound Duration": "4m 45s",
     "Inbound Calls": "0",
     "Inbound Calls Answered": "0",
     "Inbound Calls Answered %": "0",
     "Inbound Duration": "0",
-    "Total Calls": "3",
-    "Total Duration": "1m 29s"
+    "Total Calls": "4",
+    "Total Duration": "4m 45s"
   },
   {
     "User": "Hannah Lawry",
@@ -70,6 +70,20 @@
     "Total Duration": "2m 48s"
   },
   {
+    "User": "Oscar Dixon-Barrow",
+    "User Status": "Engaged",
+    "Outbound Calls": "1",
+    "Outbound Calls Answered": "1",
+    "Outbound Calls Answered %": "100%",
+    "Outbound Duration": "5s",
+    "Inbound Calls": "0",
+    "Inbound Calls Answered": "0",
+    "Inbound Calls Answered %": "0",
+    "Inbound Duration": "0",
+    "Total Calls": "1",
+    "Total Duration": "5s"
+  },
+  {
     "User": "Kelvin Lau",
     "User Status": "Available",
     "Outbound Calls": "1",
@@ -82,6 +96,20 @@
     "Inbound Duration": "0",
     "Total Calls": "1",
     "Total Duration": "11s"
+  },
+  {
+    "User": "Matt Owen",
+    "User Status": "Available",
+    "Outbound Calls": "1",
+    "Outbound Calls Answered": "1",
+    "Outbound Calls Answered %": "100%",
+    "Outbound Duration": "26s",
+    "Inbound Calls": "0",
+    "Inbound Calls Answered": "0",
+    "Inbound Calls Answered %": "0",
+    "Inbound Duration": "0",
+    "Total Calls": "1",
+    "Total Duration": "26s"
   },
   {
     "User": "Joe Bungey",
@@ -99,34 +127,6 @@
   },
   {
     "User": "Riley Brougham",
-    "User Status": "Inactive",
-    "Outbound Calls": "0",
-    "Outbound Calls Answered": "0",
-    "Outbound Calls Answered %": "0",
-    "Outbound Duration": "0",
-    "Inbound Calls": "0",
-    "Inbound Calls Answered": "0",
-    "Inbound Calls Answered %": "0",
-    "Inbound Duration": "0",
-    "Total Calls": "0",
-    "Total Duration": "0"
-  },
-  {
-    "User": "Dave Madden",
-    "User Status": "Inactive",
-    "Outbound Calls": "0",
-    "Outbound Calls Answered": "0",
-    "Outbound Calls Answered %": "0",
-    "Outbound Duration": "0",
-    "Inbound Calls": "0",
-    "Inbound Calls Answered": "0",
-    "Inbound Calls Answered %": "0",
-    "Inbound Duration": "0",
-    "Total Calls": "0",
-    "Total Duration": "0"
-  },
-  {
-    "User": "Harrison Green",
     "User Status": "Inactive",
     "Outbound Calls": "0",
     "Outbound Calls Answered": "0",
