@@ -2,17 +2,54 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Devyce Call Stats</title>
+  <title>Devyce Call Stats | Mustard Jobs</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f3f3;
+      padding: 20px;
+      color: #333;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    header img {
+      height: 40px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #eaeaea;
+    }
     .green { background-color: #d4edda; }
     .amber { background-color: #fff3cd; }
     .red { background-color: #f8d7da; }
-    .legend { margin-top: 15px; }
-    .legend span { display: inline-block; padding: 5px 10px; margin-right: 10px; border-radius: 4px; }
+    .legend {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    .legend span {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
     .green-label { background-color: #d4edda; }
     .amber-label { background-color: #fff3cd; }
     .red-label { background-color: #f8d7da; }
@@ -20,7 +57,11 @@
   </style>
 </head>
 <body>
-  <h2>📞 Devyce Live Call Stats</h2>
+  <header>
+    <img src="mustard_green_RGB_black.png" alt="Mustard Jobs logo">
+    <h2>📞 Devyce Live Call Stats</h2>
+  </header>
+
   <div>
     <label for="toggleView">View:</label>
     <select id="toggleView">
@@ -58,7 +99,7 @@
       tbody.innerHTML = '';
       if (!data.length) return;
 
-      const headers = ['User', 'Inbound Calls', 'Outbound Calls', 'Total Calls', 'Total Duration'];
+      const headers = ['Name', 'Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
       const headerRow = document.createElement('tr');
       headers.forEach(h => {
         const th = document.createElement('th');
@@ -110,7 +151,7 @@
       loadData(e.target.value);
     });
 
-    loadData('daily'); // default
+    loadData('daily');
   </script>
 </body>
 </html>
