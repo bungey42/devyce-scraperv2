@@ -16,16 +16,16 @@
   {
     "User": "Jack Perks",
     "User Status": "Available",
-    "Outbound Calls": "47",
-    "Outbound Calls Answered": "41",
-    "Outbound Calls Answered %": "87%",
-    "Outbound Duration": "48m 43s",
-    "Inbound Calls": "5",
-    "Inbound Calls Answered": "4",
-    "Inbound Calls Answered %": "80%",
-    "Inbound Duration": "13m 37s",
-    "Total Calls": "52",
-    "Total Duration": "1h 2m 20s"
+    "Outbound Calls": "50",
+    "Outbound Calls Answered": "44",
+    "Outbound Calls Answered %": "88%",
+    "Outbound Duration": "55m 1s",
+    "Inbound Calls": "6",
+    "Inbound Calls Answered": "5",
+    "Inbound Calls Answered %": "83%",
+    "Inbound Duration": "13m 52s",
+    "Total Calls": "56",
+    "Total Duration": "1h 8m 53s"
   },
   {
     "User": "Charlotte Berrow",
@@ -57,17 +57,17 @@
   },
   {
     "User": "Oscar Dixon-Barrow",
-    "User Status": "Engaged",
-    "Outbound Calls": "34",
-    "Outbound Calls Answered": "30",
-    "Outbound Calls Answered %": "88%",
-    "Outbound Duration": "1h 22m 48s",
-    "Inbound Calls": "1",
-    "Inbound Calls Answered": "1",
+    "User Status": "Available",
+    "Outbound Calls": "36",
+    "Outbound Calls Answered": "31",
+    "Outbound Calls Answered %": "86%",
+    "Outbound Duration": "1h 30m 34s",
+    "Inbound Calls": "2",
+    "Inbound Calls Answered": "2",
     "Inbound Calls Answered %": "100%",
-    "Inbound Duration": "2m 55s",
-    "Total Calls": "35",
-    "Total Duration": "1h 25m 43s"
+    "Inbound Duration": "3m 30s",
+    "Total Calls": "38",
+    "Total Duration": "1h 34m 4s"
   },
   {
     "User": "Summer Bolitho",
@@ -85,17 +85,17 @@
   },
   {
     "User": "Ben McKenna-Smith",
-    "User Status": "Engaged",
+    "User Status": "Available",
     "Outbound Calls": "21",
     "Outbound Calls Answered": "20",
     "Outbound Calls Answered %": "95%",
-    "Outbound Duration": "51m 25s",
+    "Outbound Duration": "1h 10m 57s",
     "Inbound Calls": "1",
     "Inbound Calls Answered": "1",
     "Inbound Calls Answered %": "100%",
     "Inbound Duration": "9m 39s",
     "Total Calls": "22",
-    "Total Duration": "1h 1m 4s"
+    "Total Duration": "1h 20m 36s"
   },
   {
     "User": "Elaine Connell",
