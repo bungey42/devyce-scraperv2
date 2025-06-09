@@ -68,7 +68,13 @@ const path = require('path');
     current++;
   }
 
-  fs.writeFileSync('call-stats.json', JSON.stringify(fullData, null, 2));
+  // Filter out rows where all call counts and duration are 0
+  const filteredData = fullData.filter(row => {
+    const fields = ['Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
+    return fields.some(f => row[f] && row[f] !== '0' && row[f] !== '0s' && row[f] !== '0m 0s');
+  });
+
+  fs.writeFileSync('call-stats.json', JSON.stringify(filteredData, null, 2));
   console.log('✅ call-stats.json saved');
 
   const now = new Date();
@@ -76,7 +82,7 @@ const path = require('path');
     const dateStr = now.toISOString().split('T')[0];
     const archiveDir = path.join(__dirname, 'weekly-data');
     if (!fs.existsSync(archiveDir)) fs.mkdirSync(archiveDir);
-    fs.writeFileSync(path.join(archiveDir, `${dateStr}.json`), JSON.stringify(fullData, null, 2));
+    fs.writeFileSync(path.join(archiveDir, `${dateStr}.json`), JSON.stringify(filteredData, null, 2));
     console.log(`📦 Archived daily data to weekly-data/${dateStr}.json`);
   }
 
