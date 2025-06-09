@@ -2,7 +2,7 @@ name: Devyce Scraper
 
 on:
   schedule:
-    - cron: "*/10 8-16 * * *"  # Every 10 minutes between 9am–5pm UK time (8–16 UTC)
+    - cron: "*/10 8-16 * * *"  # Every 10 minutes from 9am–5pm UK time (8–16 UTC)
   workflow_dispatch:
 
 jobs:
@@ -93,10 +93,10 @@ jobs:
 
                     if (col === "Total Duration") {
                       const mins = durationToMinutes(row[col]);
-                      if (mins >= expectedMins) {
+                      if (mins >= expectedMins * 0.9) {
                         td.style.background = '#d4edda';
                         td.style.color = '#155724';
-                      } else if (mins >= expectedMins * 0.75) {
+                      } else if (mins >= expectedMins * 0.6) {
                         td.style.background = '#fff3cd';
                         td.style.color = '#856404';
                       } else {
