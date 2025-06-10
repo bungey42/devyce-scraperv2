@@ -42,6 +42,20 @@
     "Total Duration": "28m 50s"
   },
   {
+    "User": "Oscar Dixon-Barrow",
+    "User Status": "Available",
+    "Outbound Calls": "17",
+    "Outbound Calls Answered": "15",
+    "Outbound Calls Answered %": "88%",
+    "Outbound Duration": "42m 8s",
+    "Inbound Calls": "0",
+    "Inbound Calls Answered": "0",
+    "Inbound Calls Answered %": "0",
+    "Inbound Duration": "0",
+    "Total Calls": "17",
+    "Total Duration": "42m 8s"
+  },
+  {
     "User": "Martha Cumiskey",
     "User Status": "Available",
     "Outbound Calls": "16",
@@ -54,20 +68,6 @@
     "Inbound Duration": "2m 14s",
     "Total Calls": "17",
     "Total Duration": "31m 54s"
-  },
-  {
-    "User": "Oscar Dixon-Barrow",
-    "User Status": "Available",
-    "Outbound Calls": "16",
-    "Outbound Calls Answered": "14",
-    "Outbound Calls Answered %": "88%",
-    "Outbound Duration": "41m 34s",
-    "Inbound Calls": "0",
-    "Inbound Calls Answered": "0",
-    "Inbound Calls Answered %": "0",
-    "Inbound Duration": "0",
-    "Total Calls": "16",
-    "Total Duration": "41m 34s"
   },
   {
     "User": "Elaine Connell",
@@ -98,6 +98,20 @@
     "Total Duration": "16m 36s"
   },
   {
+    "User": "Ben McKenna-Smith",
+    "User Status": "Available",
+    "Outbound Calls": "13",
+    "Outbound Calls Answered": "12",
+    "Outbound Calls Answered %": "92%",
+    "Outbound Duration": "1h 32m 46s",
+    "Inbound Calls": "1",
+    "Inbound Calls Answered": "1",
+    "Inbound Calls Answered %": "100%",
+    "Inbound Duration": "11m 7s",
+    "Total Calls": "14",
+    "Total Duration": "1h 43m 53s"
+  },
+  {
     "User": "Molly McGuire",
     "User Status": "Available",
     "Outbound Calls": "13",
@@ -126,32 +140,32 @@
     "Total Duration": "37m 55s"
   },
   {
-    "User": "Ben McKenna-Smith",
-    "User Status": "Available",
-    "Outbound Calls": "12",
-    "Outbound Calls Answered": "11",
-    "Outbound Calls Answered %": "92%",
-    "Outbound Duration": "1h 28m 48s",
-    "Inbound Calls": "1",
-    "Inbound Calls Answered": "1",
-    "Inbound Calls Answered %": "100%",
-    "Inbound Duration": "3s",
-    "Total Calls": "13",
-    "Total Duration": "1h 28m 51s"
-  },
-  {
     "User": "Phil Boshier",
-    "User Status": "Engaged",
+    "User Status": "Available",
     "Outbound Calls": "5",
     "Outbound Calls Answered": "5",
     "Outbound Calls Answered %": "100%",
-    "Outbound Duration": "40m 37s",
+    "Outbound Duration": "1h 15m 46s",
     "Inbound Calls": "0",
     "Inbound Calls Answered": "0",
     "Inbound Calls Answered %": "0",
     "Inbound Duration": "0",
     "Total Calls": "5",
-    "Total Duration": "40m 37s"
+    "Total Duration": "1h 15m 46s"
+  },
+  {
+    "User": "Ben Hackston",
+    "User Status": "Engaged",
+    "Outbound Calls": "5",
+    "Outbound Calls Answered": "4",
+    "Outbound Calls Answered %": "80%",
+    "Outbound Duration": "31m 16s",
+    "Inbound Calls": "1",
+    "Inbound Calls Answered": "1",
+    "Inbound Calls Answered %": "100%",
+    "Inbound Duration": "1m 11s",
+    "Total Calls": "6",
+    "Total Duration": "32m 27s"
   },
   {
     "User": "Jack Wheeler",
@@ -166,20 +180,6 @@
     "Inbound Duration": "0",
     "Total Calls": "4",
     "Total Duration": "38m 6s"
-  },
-  {
-    "User": "Ben Hackston",
-    "User Status": "Available",
-    "Outbound Calls": "4",
-    "Outbound Calls Answered": "3",
-    "Outbound Calls Answered %": "75%",
-    "Outbound Duration": "31m 14s",
-    "Inbound Calls": "1",
-    "Inbound Calls Answered": "1",
-    "Inbound Calls Answered %": "100%",
-    "Inbound Duration": "1m 11s",
-    "Total Calls": "5",
-    "Total Duration": "32m 25s"
   },
   {
     "User": "Charlotte Berrow",
