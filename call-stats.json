@@ -99,17 +99,17 @@
   },
   {
     "User": "Luka Wright",
-    "User Status": "Engaged",
+    "User Status": "Available",
     "Outbound Calls": "22",
     "Outbound Calls Answered": "21",
     "Outbound Calls Answered %": "95%",
-    "Outbound Duration": "54m 6s",
-    "Inbound Calls": "1",
-    "Inbound Calls Answered": "1",
+    "Outbound Duration": "1h 2m 7s",
+    "Inbound Calls": "2",
+    "Inbound Calls Answered": "2",
     "Inbound Calls Answered %": "100%",
-    "Inbound Duration": "23m 18s",
-    "Total Calls": "23",
-    "Total Duration": "1h 17m 24s"
+    "Inbound Duration": "36m 56s",
+    "Total Calls": "24",
+    "Total Duration": "1h 39m 3s"
   },
   {
     "User": "Molly McGuire",
@@ -198,16 +198,16 @@
   {
     "User": "Dave Madden",
     "User Status": "Available",
-    "Outbound Calls": "3",
-    "Outbound Calls Answered": "3",
+    "Outbound Calls": "4",
+    "Outbound Calls Answered": "4",
     "Outbound Calls Answered %": "100%",
-    "Outbound Duration": "11m 12s",
+    "Outbound Duration": "13m 4s",
     "Inbound Calls": "0",
     "Inbound Calls Answered": "0",
     "Inbound Calls Answered %": "0",
     "Inbound Duration": "0",
-    "Total Calls": "3",
-    "Total Duration": "11m 12s"
+    "Total Calls": "4",
+    "Total Duration": "13m 4s"
   },
   {
     "User": "Daniela Kent",
