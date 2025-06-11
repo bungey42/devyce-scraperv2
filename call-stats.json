@@ -14,6 +14,20 @@
     "Total Duration": "40m 44s"
   },
   {
+    "User": "Jack Perks",
+    "User Status": "Available",
+    "Outbound Calls": "21",
+    "Outbound Calls Answered": "19",
+    "Outbound Calls Answered %": "90%",
+    "Outbound Duration": "48m 7s",
+    "Inbound Calls": "3",
+    "Inbound Calls Answered": "3",
+    "Inbound Calls Answered %": "100%",
+    "Inbound Duration": "12m 51s",
+    "Total Calls": "24",
+    "Total Duration": "1h 58s"
+  },
+  {
     "User": "Martha Cumiskey",
     "User Status": "Available",
     "Outbound Calls": "21",
@@ -26,20 +40,6 @@
     "Inbound Duration": "2m 59s",
     "Total Calls": "23",
     "Total Duration": "14m 16s"
-  },
-  {
-    "User": "Jack Perks",
-    "User Status": "Engaged",
-    "Outbound Calls": "20",
-    "Outbound Calls Answered": "18",
-    "Outbound Calls Answered %": "90%",
-    "Outbound Duration": "47m 57s",
-    "Inbound Calls": "3",
-    "Inbound Calls Answered": "3",
-    "Inbound Calls Answered %": "100%",
-    "Inbound Duration": "7m 25s",
-    "Total Calls": "23",
-    "Total Duration": "55m 22s"
   },
   {
     "User": "Molly McGuire",
