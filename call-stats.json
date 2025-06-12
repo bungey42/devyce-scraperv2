@@ -103,13 +103,13 @@
     "Outbound Calls": "8",
     "Outbound Calls Answered": "8",
     "Outbound Calls Answered %": "100%",
-    "Outbound Duration": "25m 2s",
-    "Inbound Calls": "0",
-    "Inbound Calls Answered": "0",
-    "Inbound Calls Answered %": "0",
-    "Inbound Duration": "0",
-    "Total Calls": "8",
-    "Total Duration": "25m 2s"
+    "Outbound Duration": "33m 44s",
+    "Inbound Calls": "1",
+    "Inbound Calls Answered": "1",
+    "Inbound Calls Answered %": "100%",
+    "Inbound Duration": "41s",
+    "Total Calls": "9",
+    "Total Duration": "34m 25s"
   },
   {
     "User": "Luka Wright",
@@ -141,17 +141,17 @@
   },
   {
     "User": "Summer Bolitho",
-    "User Status": "Engaged",
+    "User Status": "Available",
     "Outbound Calls": "6",
     "Outbound Calls Answered": "6",
     "Outbound Calls Answered %": "100%",
-    "Outbound Duration": "11m 5s",
+    "Outbound Duration": "16m 48s",
     "Inbound Calls": "2",
     "Inbound Calls Answered": "2",
     "Inbound Calls Answered %": "100%",
     "Inbound Duration": "32m 37s",
     "Total Calls": "8",
-    "Total Duration": "43m 42s"
+    "Total Duration": "49m 25s"
   },
   {
     "User": "Daniela Kent",
