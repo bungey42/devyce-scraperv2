@@ -9,10 +9,11 @@ jobs:
   scrape-and-archive:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout gh-pages branch
+      - name: Checkout main branch
         uses: actions/checkout@v3
         with:
-          ref: gh-pages
+          ref: main
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -31,9 +32,10 @@ jobs:
       - name: Run weekly archiver
         run: node archive-summary.js
 
-      - name: Commit and push results
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Deploy JSON outputs to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          commit_message: "🤖 Daily update and archive"
           branch: gh-pages
-          file_pattern: call-stats.json weekly-summary.json weekly-data/*.json
+          folder: . # Everything in root (including *.json and /weekly-data)
+          clean: false
+          single-commit: true
