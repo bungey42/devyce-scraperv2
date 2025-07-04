@@ -46,23 +46,32 @@ const path = require('path');
   while (true) {
     await page.waitForSelector('table');
 
-    const pageRows = await page.evaluate(() => {
-      const headers = Array.from(document.querySelectorAll('thead th')).map(h => h.innerText.trim());
-      const rows = Array.from(document.querySelectorAll('tbody tr'));
+const pageRows = await page.evaluate(() => {
+  const normalizeHeader = (text) => {
+    const h = text.trim().toLowerCase();
+    if (h.includes('inbound')) return 'Inbound calls';
+    if (h.includes('outbound')) return 'Outbound calls';
+    if (h.includes('name')) return 'Name';
+    if (h.includes('total calls')) return 'Total Calls';
+    if (h.includes('duration')) return 'Total Duration';
+    return text.trim();
+  };
 
-      return rows.map(row => {
-        const cells = Array.from(row.querySelectorAll('td'));
-        const values = cells.map(cell => cell.innerText.trim());
-        return headers.reduce((obj, header, i) => {
-          // Normalize column headers
-          let mappedHeader = header;
-          if (header === 'Inbound') mappedHeader = 'Inbound calls';
-          if (header === 'Outbound') mappedHeader = 'Outbound calls';
-          obj[mappedHeader] = values[i] || '';
-          return obj;
-        }, {});
-      });
-    });
+  const headers = Array.from(document.querySelectorAll('thead th')).map(h =>
+    normalizeHeader(h.innerText || '')
+  );
+
+  const rows = Array.from(document.querySelectorAll('tbody tr'));
+  return rows.map(row => {
+    const cells = Array.from(row.querySelectorAll('td'));
+    const values = cells.map(cell => cell.innerText.trim());
+    return headers.reduce((obj, header, i) => {
+      obj[header] = values[i] || '';
+      return obj;
+    }, {});
+  });
+});
+
 
     allRows = allRows.concat(pageRows);
 
