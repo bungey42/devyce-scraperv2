@@ -11,12 +11,12 @@ const path = require('path');
   const page = await browser.newPage();
   await page.goto('https://portal.devyce.io/login', { waitUntil: 'networkidle2' });
 
-  // Login: email field
+  // Login
   await page.waitForSelector('#username');
   await page.type('#username', process.env.DEVYCE_EMAIL);
   await page.keyboard.press('Enter');
 
-  // Retry to wait for password field
+  // Wait for password field
   let passwordFieldFound = false;
   for (let i = 0; i < 3; i++) {
     try {
@@ -38,7 +38,6 @@ const path = require('path');
   await page.keyboard.press('Enter');
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  // Navigate to live call stats
   await page.goto('https://portal.devyce.io/dashboard/live-call-stats?current=1&pageSize=10', {
     waitUntil: 'networkidle2',
   });
@@ -50,11 +49,16 @@ const path = require('path');
     const pageRows = await page.evaluate(() => {
       const headers = Array.from(document.querySelectorAll('thead th')).map(h => h.innerText.trim());
       const rows = Array.from(document.querySelectorAll('tbody tr'));
+
       return rows.map(row => {
         const cells = Array.from(row.querySelectorAll('td'));
         const values = cells.map(cell => cell.innerText.trim());
         return headers.reduce((obj, header, i) => {
-          obj[header] = values[i] || '';
+          // Normalize column headers
+          let mappedHeader = header;
+          if (header === 'Inbound') mappedHeader = 'Inbound calls';
+          if (header === 'Outbound') mappedHeader = 'Outbound calls';
+          obj[mappedHeader] = values[i] || '';
           return obj;
         }, {});
       });
@@ -71,11 +75,9 @@ const path = require('path');
     ]);
   }
 
-  // Write to call-stats.json
   fs.writeFileSync('call-stats.json', JSON.stringify(allRows, null, 2));
   console.log('✅ Saved call-stats.json');
 
-  // Save daily snapshot
   const today = new Date().toISOString().split('T')[0];
   const dailyDir = path.join(__dirname, 'weekly-data');
   if (!fs.existsSync(dailyDir)) fs.mkdirSync(dailyDir);
