@@ -1,0 +1,37 @@
+name: Devyce Daily Scraper
+
+on:
+  schedule:
+    - cron: '0 22 * * 1-5'  # 11PM UK time (22:00 UTC), Mon–Fri
+  workflow_dispatch:
+
+jobs:
+  scrape-and-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper
+        env:
+          DEVYCE_EMAIL: ${{ secrets.DEVYCE_EMAIL }}
+          DEVYCE_PASSWORD: ${{ secrets.DEVYCE_PASSWORD }}
+        run: node devyce-scraper.js
+
+      - name: Run weekly archiver
+        run: node archive-summary.js
+
+      - name: Commit and push results
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Daily update and archive"
+          branch: gh-pages
+          file_pattern: call-stats.json weekly-summary.json weekly-data/*.json
