@@ -14,7 +14,7 @@ if (!fs.existsSync(archiveDir)) {
 function getWeekStartDate(date) {
   const d = new Date(date);
   const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
   return new Date(d.setDate(diff)).toISOString().split('T')[0];
 }
 
@@ -30,7 +30,7 @@ function readJSON(filePath) {
 function isWeekday(fileName) {
   const date = new Date(fileName.replace('.json', ''));
   const day = date.getDay();
-  return day >= 1 && day <= 5; // Mon–Fri
+  return day >= 1 && day <= 5;
 }
 
 const files = fs.readdirSync(archiveDir)
@@ -44,14 +44,14 @@ files.forEach(file => {
   const data = readJSON(filePath);
 
   data.forEach(row => {
-    const key = row['Name'];
+    const key = row['Users'] || row['Name'];
     if (!key) return;
 
     if (!weekData[key]) {
       weekData[key] = {
-        'Name': key,
-        'Inbound calls': 0,
-        'Outbound calls': 0,
+        'Users': key,
+        'Inbound Calls': 0,
+        'Outbound Calls': 0,
         'Total Calls': 0,
         'Total Duration Seconds': 0,
       };
@@ -66,23 +66,22 @@ files.forEach(file => {
       return h * 3600 + m * 60 + s;
     };
 
-    weekData[key]['Inbound calls'] += safeParse(row['Inbound calls']);
-    weekData[key]['Outbound calls'] += safeParse(row['Outbound calls']);
-    weekData[key]['Total Calls'] += safeParse(row['Total Calls']);
-    weekData[key]['Total Duration Seconds'] += parseDuration(row['Total Duration']);
+    weekData[key]['Inbound Calls'] += safeParse(row['Inbound Calls'] || row['Inbound calls'] || '0');
+    weekData[key]['Outbound Calls'] += safeParse(row['Outbound Calls'] || row['Outbound calls'] || '0');
+    weekData[key]['Total Calls'] += safeParse(row['Total Calls'] || '0');
+    weekData[key]['Total Duration Seconds'] += parseDuration(row['Total Duration'] || '0s');
   });
 });
 
-// Format back to standard output
 const summary = Object.values(weekData).map(entry => {
   const totalSeconds = entry['Total Duration Seconds'];
   const h = Math.floor(totalSeconds / 3600);
   const m = Math.floor((totalSeconds % 3600) / 60);
   const s = totalSeconds % 60;
   return {
-    'Name': entry['Name'],
-    'Inbound calls': entry['Inbound calls'],
-    'Outbound calls': entry['Outbound calls'],
+    'Users': entry['Users'],
+    'Inbound Calls': entry['Inbound Calls'],
+    'Outbound Calls': entry['Outbound Calls'],
     'Total Calls': entry['Total Calls'],
     'Total Duration': `${h}h ${m}m ${s}s`
   };
