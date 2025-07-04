@@ -206,19 +206,24 @@ if (viewType === 'weekly') {
       });
     };
 
-    const loadData = async (type) => {
-      const url = type === 'weekly' ? weeklyUrl : dailyUrl;
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        renderTable(data, type);
+const loadData = async (type) => {
+  const url = type === 'weekly' ? weeklyUrl : dailyUrl;
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    const data = json.data || json; // fallback in case old format
 
-        const updated = new Date().toLocaleString('en-GB');
-        document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${updated}`;
-      } catch (e) {
-        console.error('Failed to load data:', e);
-      }
-    };
+    renderTable(data, type);
+
+    const updated = json.lastUpdated 
+      ? new Date(json.lastUpdated).toLocaleString('en-GB')
+      : 'unknown';
+    document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${updated}`;
+  } catch (e) {
+    console.error('Failed to load data:', e);
+  }
+};
+
 
     document.getElementById('toggleView').addEventListener('change', e => {
       loadData(e.target.value);
