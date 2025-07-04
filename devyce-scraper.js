@@ -79,7 +79,4 @@ const path = require('path');
   fs.writeFileSync('call-stats.json', JSON.stringify(allRows, null, 2));
   console.log('✅ call-stats.json saved');
 
-  // Also write to weekly-data/YYYY-MM-DD.json
-  const outputDir = path.join(__dirname, 'weekly-data');
-  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
-  const today = new Date().toISOString().spli
+  //
