@@ -78,7 +78,7 @@ const fs = require('fs');
 
   const output = {
   lastUpdated: new Date().toISOString(),
-  data: tableData
+  data: allData
 };
 fs.writeFileSync('call-stats.json', JSON.stringify(output, null, 2));
   console.log(`✅ Saved ${allData.length} entries to call-stats.json`);
