@@ -56,10 +56,14 @@ const path = require('path');
       return rows.map(row => {
         const cells = Array.from(row.querySelectorAll('td'));
         const values = cells.map(cell => cell.innerText.trim());
-        return headers.reduce((obj, header, index) => {
-          obj[header] = values[index] || '';
-          return obj;
-        }, {});
+return headers.reduce((obj, header, index) => {
+  let key = header;
+  if (header === 'Inbound') key = 'Inbound Calls';
+  if (header === 'Outbound') key = 'Outbound Calls';
+  obj[key] = values[index] || '';
+  return obj;
+}, {});
+
       });
     });
 
