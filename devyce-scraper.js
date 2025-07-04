@@ -76,7 +76,11 @@ const fs = require('fs');
     ]);
   }
 
-  fs.writeFileSync('call-stats.json', JSON.stringify(allData, null, 2));
+  const output = {
+  lastUpdated: new Date().toISOString(),
+  data: tableData
+};
+fs.writeFileSync('call-stats.json', JSON.stringify(output, null, 2));
   console.log(`✅ Saved ${allData.length} entries to call-stats.json`);
 
   await browser.close();
