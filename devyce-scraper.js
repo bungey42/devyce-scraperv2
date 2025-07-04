@@ -1,4 +1,3 @@
-// devyce-scraper.js
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
@@ -8,87 +7,77 @@ const path = require('path');
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
-
   const page = await browser.newPage();
 
   await page.goto('https://portal.devyce.io/login', { waitUntil: 'networkidle2' });
-
   await page.waitForSelector('#username');
   await page.type('#username', process.env.DEVYCE_EMAIL);
   await page.keyboard.press('Enter');
 
-  let passwordLoaded = false;
+  let passwordVisible = false;
   for (let attempt = 0; attempt < 5; attempt++) {
     try {
       await page.waitForSelector('#password', { timeout: 3000 });
-      passwordLoaded = true;
+      passwordVisible = true;
       break;
-    } catch (e) {
-      console.log(`Password field not loaded yet, retrying (${attempt + 1}/5)...`);
+    } catch {
+      console.log('Waiting for password field...');
     }
   }
 
-  if (!passwordLoaded) {
-    console.error('❌ Failed to load password field');
+  if (!passwordVisible) {
+    console.error('Password field did not appear. Exiting.');
     await browser.close();
-    process.exit(1);
+    return;
   }
 
   await page.type('#password', process.env.DEVYCE_PASSWORD);
   await page.keyboard.press('Enter');
-
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  const baseUrl = 'https://portal.devyce.io/dashboard/live-call-stats';
-  let fullData = [];
-  let current = 1;
-  const maxPages = 10; // cap to avoid infinite loop
+  await page.goto('https://portal.devyce.io/dashboard/live-call-stats?current=1&pageSize=10', { waitUntil: 'networkidle2' });
+  await page.waitForSelector('table');
 
-  while (current <= maxPages) {
-    const url = `${baseUrl}?current=${current}&pageSize=10`;
-    await page.goto(url, { waitUntil: 'networkidle2' });
+  const allData = [];
+  let currentPage = 1;
+  let hasNextPage = true;
+
+  while (hasNextPage) {
     await page.waitForSelector('table');
 
-    const tableData = await page.evaluate(() => {
+    const pageData = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('table tbody tr'));
       const headers = Array.from(document.querySelectorAll('table thead th')).map(h => h.innerText.trim());
 
       return rows.map(row => {
         const cells = Array.from(row.querySelectorAll('td'));
         const values = cells.map(cell => cell.innerText.trim());
-return headers.reduce((obj, header, index) => {
-  let key = header;
-  if (header === 'Inbound') key = 'Inbound Calls';
-  if (header === 'Outbound') key = 'Outbound Calls';
-  obj[key] = values[index] || '';
-  return obj;
-}, {});
-
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index] || '';
+          return obj;
+        }, {});
       });
     });
 
-    if (!tableData.length) break;
-    fullData = fullData.concat(tableData);
-    current++;
+    allData.push(...pageData);
+
+    const nextBtn = await page.$('button[aria-label="Next Page"]:not([disabled])');
+    if (nextBtn) {
+      await nextBtn.click();
+      await page.waitForTimeout(1500);
+      currentPage++;
+    } else {
+      hasNextPage = false;
+    }
   }
 
-  // Filter out rows where all call counts and duration are 0
-  const filteredData = fullData.filter(row => {
-    const fields = ['Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
-    return fields.some(f => row[f] && row[f] !== '0' && row[f] !== '0s' && row[f] !== '0m 0s');
-  });
-
-  fs.writeFileSync('call-stats.json', JSON.stringify(filteredData, null, 2));
+  fs.writeFileSync('call-stats.json', JSON.stringify(allData, null, 2));
   console.log('✅ call-stats.json saved');
 
-  const now = new Date();
-  if (now.getHours() === 23) {
-    const dateStr = now.toISOString().split('T')[0];
-    const archiveDir = path.join(__dirname, 'weekly-data');
-    if (!fs.existsSync(archiveDir)) fs.mkdirSync(archiveDir);
-    fs.writeFileSync(path.join(archiveDir, `${dateStr}.json`), JSON.stringify(filteredData, null, 2));
-    console.log(`📦 Archived daily data to weekly-data/${dateStr}.json`);
-  }
+  const today = new Date().toISOString().split('T')[0];
+  if (!fs.existsSync('weekly-data')) fs.mkdirSync('weekly-data');
+  fs.writeFileSync(`weekly-data/${today}.json`, JSON.stringify(allData, null, 2));
+  console.log(`🗂️  daily archive saved to weekly-data/${today}.json`);
 
   await browser.close();
 })();
