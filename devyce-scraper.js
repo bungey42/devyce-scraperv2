@@ -77,11 +77,21 @@ const fs = require('fs');
   }
 
   const output = {
-  lastUpdated: new Date().toISOString(),
-  data: allData
-};
-fs.writeFileSync('call-stats.json', JSON.stringify(output, null, 2));
+    lastUpdated: new Date().toISOString(),
+    data: allData
+  };
+
+  fs.writeFileSync('call-stats.json', JSON.stringify(output, null, 2));
   console.log(`✅ Saved ${allData.length} entries to call-stats.json`);
+
+  // NEW: Archive today's data into weekly-data/YYYY-MM-DD.json
+  const archiveDir = './weekly-data';
+  if (!fs.existsSync(archiveDir)) {
+    fs.mkdirSync(archiveDir);
+  }
+  const today = new Date().toISOString().split('T')[0];
+  fs.writeFileSync(`${archiveDir}/${today}.json`, JSON.stringify(allData, null, 2));
+  console.log(`📦 Archived daily data to ${archiveDir}/${today}.json`);
 
   await browser.close();
 })();
