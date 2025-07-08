@@ -166,28 +166,28 @@
         return ascending ? valA - valB : valB - valA;
       });
 
-const now = new Date();
-const workStart = new Date(now);
-workStart.setHours(9, 0, 0, 0);
+      const now = new Date();
+      const workStart = new Date(now);
+      workStart.setHours(9, 0, 0, 0);
 
-const workEnd = new Date(now);
-workEnd.setHours(17, 0, 0, 0);
+      const workEnd = new Date(now);
+      workEnd.setHours(17, 0, 0, 0);
 
-let expectedSeconds;
+      let expectedSeconds;
 
-if (viewType === 'weekly') {
-  expectedSeconds = 36000; // 10 hours weekly target
-} else {
-  if (now <= workStart) {
-    expectedSeconds = 0;
-  } else if (now >= workEnd) {
-    expectedSeconds = 7200;
-  } else {
-    const elapsed = (now - workStart) / 1000;
-    const totalWorkSeconds = (workEnd - workStart) / 1000;
-    expectedSeconds = 7200 * (elapsed / totalWorkSeconds);
-  }
-}
+      if (viewType === 'weekly') {
+        expectedSeconds = 36000;
+      } else {
+        if (now <= workStart) {
+          expectedSeconds = 0;
+        } else if (now >= workEnd) {
+          expectedSeconds = 7200;
+        } else {
+          const elapsed = (now - workStart) / 1000;
+          const totalWorkSeconds = (workEnd - workStart) / 1000;
+          expectedSeconds = 7200 * (elapsed / totalWorkSeconds);
+        }
+      }
 
       data.forEach(row => {
         const tr = document.createElement('tr');
@@ -206,26 +206,26 @@ if (viewType === 'weekly') {
       });
     };
 
-const loadData = async (type) => {
-  const url = type === 'weekly' ? weeklyUrl : dailyUrl;
-  try {
-const res = await fetch(url);
-const result = await res.json();
-const data = result.data || [];
+    const loadData = async (type) => {
+      const url = type === 'weekly' ? weeklyUrl : dailyUrl;
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        const data = Array.isArray(json) ? json : json.data || [];
 
-renderTable(data, type);
+        renderTable(data, type);
 
-if (result.lastUpdated) {
-  const updated = new Date(result.lastUpdated).toLocaleString('en-GB');
-  document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${updated}`;
-} else {
-  document.getElementById('lastUpdated').textContent = 'Last update from Devyce: unknown';
-}
-  } catch (e) {
-    console.error('Failed to load data:', e);
-  }
-};
-
+        const lastUpdated = json.lastUpdated || null;
+        if (lastUpdated) {
+          const formatted = new Date(lastUpdated).toLocaleString('en-GB');
+          document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${formatted}`;
+        } else {
+          document.getElementById('lastUpdated').textContent = 'Last update from Devyce: unknown';
+        }
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
+    };
 
     document.getElementById('toggleView').addEventListener('change', e => {
       loadData(e.target.value);
