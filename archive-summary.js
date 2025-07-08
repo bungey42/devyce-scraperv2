@@ -1,4 +1,3 @@
-// archive-summary.js
 const fs = require('fs');
 const path = require('path');
 
@@ -20,8 +19,7 @@ function getWeekStartDate(date) {
 
 function readJSON(filePath) {
   try {
-    const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    return Array.isArray(content) ? content : content.data || [];
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   } catch (e) {
     console.error(`❌ Failed to read ${filePath}`);
     return [];
@@ -45,14 +43,14 @@ files.forEach(file => {
   const data = readJSON(filePath);
 
   data.forEach(row => {
-    const key = row['Users'] || row['Name'];
+    const key = row['Name'] || row['Users'];
     if (!key) return;
 
     if (!weekData[key]) {
       weekData[key] = {
-        'Users': key,
-        'Inbound Calls': 0,
-        'Outbound Calls': 0,
+        'Name': key,
+        'Inbound calls': 0,
+        'Outbound calls': 0,
         'Total Calls': 0,
         'Total Duration Seconds': 0,
       };
@@ -67,8 +65,8 @@ files.forEach(file => {
       return h * 3600 + m * 60 + s;
     };
 
-    weekData[key]['Inbound Calls'] += safeParse(row['Inbound Calls'] || row['Inbound calls'] || '0');
-    weekData[key]['Outbound Calls'] += safeParse(row['Outbound Calls'] || row['Outbound calls'] || '0');
+    weekData[key]['Inbound calls'] += safeParse(row['Inbound calls'] || row['Inbound Calls'] || '0');
+    weekData[key]['Outbound calls'] += safeParse(row['Outbound calls'] || row['Outbound Calls'] || '0');
     weekData[key]['Total Calls'] += safeParse(row['Total Calls'] || '0');
     weekData[key]['Total Duration Seconds'] += parseDuration(row['Total Duration'] || '0s');
   });
@@ -80,9 +78,9 @@ const summary = Object.values(weekData).map(entry => {
   const m = Math.floor((totalSeconds % 3600) / 60);
   const s = totalSeconds % 60;
   return {
-    'Users': entry['Users'],
-    'Inbound Calls': entry['Inbound Calls'],
-    'Outbound Calls': entry['Outbound Calls'],
+    'Name': entry['Name'],
+    'Inbound calls': entry['Inbound calls'],
+    'Outbound calls': entry['Outbound calls'],
     'Total Calls': entry['Total Calls'],
     'Total Duration': `${h}h ${m}m ${s}s`
   };
