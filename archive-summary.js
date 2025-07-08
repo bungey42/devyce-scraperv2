@@ -3,6 +3,7 @@ const path = require('path');
 
 const archiveDir = path.join(__dirname, 'weekly-data');
 const summaryFile = path.join(__dirname, 'weekly-summary.json');
+const liveDataFile = path.join(__dirname, 'call-stats.json');
 
 if (!fs.existsSync(archiveDir)) {
   console.log('📂 weekly-data directory does not exist. Skipping summary generation.');
@@ -38,10 +39,7 @@ const files = fs.readdirSync(archiveDir)
 const thisWeek = getWeekStartDate(new Date());
 const weekData = {};
 
-files.forEach(file => {
-  const filePath = path.join(archiveDir, file);
-  const data = readJSON(filePath);
-
+function addToWeekData(data) {
   data.forEach(row => {
     const key = row['Name'] || row['Users'];
     if (!key) return;
@@ -70,7 +68,27 @@ files.forEach(file => {
     weekData[key]['Total Calls'] += safeParse(row['Total Calls'] || '0');
     weekData[key]['Total Duration Seconds'] += parseDuration(row['Total Duration'] || '0s');
   });
+}
+
+// Step 1: Add each archived weekday file
+files.forEach(file => {
+  const filePath = path.join(archiveDir, file);
+  const data = readJSON(filePath);
+  addToWeekData(data);
 });
+
+// Step 2: Also add today's current data from call-stats.json
+if (fs.existsSync(liveDataFile)) {
+  const liveData = readJSON(liveDataFile).data || [];
+  const today = new Date().toISOString().split('T')[0];
+
+  // Only add live data if today is Mon–Fri
+  const dayOfWeek = new Date().getDay();
+  if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+    console.log('📅 Adding today\'s live data to weekly summary...');
+    addToWeekData(liveData);
+  }
+}
 
 const summary = Object.values(weekData).map(entry => {
   const totalSeconds = entry['Total Duration Seconds'];
