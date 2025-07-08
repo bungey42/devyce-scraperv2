@@ -20,7 +20,8 @@ function getWeekStartDate(date) {
 
 function readJSON(filePath) {
   try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    return Array.isArray(content) ? content : content.data || [];
   } catch (e) {
     console.error(`❌ Failed to read ${filePath}`);
     return [];
