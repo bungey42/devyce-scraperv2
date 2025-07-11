@@ -1,0 +1,72 @@
+[
+  {
+    "Name": "Joe Bungey",
+    "Inbound calls": 14,
+    "Outbound calls": 200,
+    "Total Calls": 214,
+    "Total Duration": "2h 56m 8s"
+  },
+  {
+    "Name": "Jack Perks",
+    "Inbound calls": 18,
+    "Outbound calls": 136,
+    "Total Calls": 154,
+    "Total Duration": "4h 15m 14s"
+  },
+  {
+    "Name": "Matt Owen",
+    "Inbound calls": 4,
+    "Outbound calls": 78,
+    "Total Calls": 82,
+    "Total Duration": "2h 36m 52s"
+  },
+  {
+    "Name": "Martha Cumiskey",
+    "Inbound calls": 2,
+    "Outbound calls": 66,
+    "Total Calls": 68,
+    "Total Duration": "1h 37m 14s"
+  },
+  {
+    "Name": "Molly McGuire",
+    "Inbound calls": 6,
+    "Outbound calls": 36,
+    "Total Calls": 42,
+    "Total Duration": "3h 43m 36s"
+  },
+  {
+    "Name": "Summer Bolitho",
+    "Inbound calls": 4,
+    "Outbound calls": 32,
+    "Total Calls": 36,
+    "Total Duration": "2h 10m 56s"
+  },
+  {
+    "Name": "Ben Hackston",
+    "Inbound calls": 2,
+    "Outbound calls": 28,
+    "Total Calls": 30,
+    "Total Duration": "2h 13m 56s"
+  },
+  {
+    "Name": "Phil Boshier",
+    "Inbound calls": 0,
+    "Outbound calls": 26,
+    "Total Calls": 26,
+    "Total Duration": "1h 44m 26s"
+  },
+  {
+    "Name": "Elaine Connell",
+    "Inbound calls": 8,
+    "Outbound calls": 22,
+    "Total Calls": 30,
+    "Total Duration": "1h 3m 30s"
+  },
+  {
+    "Name": "Jack Wheeler",
+    "Inbound calls": 8,
+    "Outbound calls": 22,
+    "Total Calls": 30,
+    "Total Duration": "1h 22m 4s"
+  }
+]
