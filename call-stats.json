@@ -1,0 +1,82 @@
+{
+  "lastUpdated": "2026-09-11T23:57:41.471Z",
+  "data": [
+    {
+      "Name": "",
+      "Inbound calls": "",
+      "Outbound calls": "",
+      "Total Calls": "",
+      "Total Duration": ""
+    },
+    {
+      "Name": "Jack Perks",
+      "Inbound calls": "5",
+      "Outbound calls": "46",
+      "Total Calls": "51",
+      "Total Duration": "1h 12m 10s"
+    },
+    {
+      "Name": "Reece Beale",
+      "Inbound calls": "5",
+      "Outbound calls": "37",
+      "Total Calls": "42",
+      "Total Duration": "31m 29s"
+    },
+    {
+      "Name": "Eden Smith",
+      "Inbound calls": "0",
+      "Outbound calls": "35",
+      "Total Calls": "35",
+      "Total Duration": "23m 10s"
+    },
+    {
+      "Name": "Matt Owen",
+      "Inbound calls": "6",
+      "Outbound calls": "33",
+      "Total Calls": "39",
+      "Total Duration": "2h 6m 39s"
+    },
+    {
+      "Name": "Elaine Connell",
+      "Inbound calls": "7",
+      "Outbound calls": "20",
+      "Total Calls": "27",
+      "Total Duration": "1h 13m 26s"
+    },
+    {
+      "Name": "Ali Tones",
+      "Inbound calls": "5",
+      "Outbound calls": "18",
+      "Total Calls": "23",
+      "Total Duration": "1h 26m 44s"
+    },
+    {
+      "Name": "Ewan Odion",
+      "Inbound calls": "5",
+      "Outbound calls": "17",
+      "Total Calls": "22",
+      "Total Duration": "1h 2m 51s"
+    },
+    {
+      "Name": "Pelumi Salau",
+      "Inbound calls": "4",
+      "Outbound calls": "14",
+      "Total Calls": "18",
+      "Total Duration": "42m 8s"
+    },
+    {
+      "Name": "James Gleeson",
+      "Inbound calls": "6",
+      "Outbound calls": "14",
+      "Total Calls": "20",
+      "Total Duration": "43m 40s"
+    },
+    {
+      "Name": "Charlotte Berrow",
+      "Inbound calls": "4",
+      "Outbound calls": "11",
+      "Total Calls": "15",
+      "Total Duration": "38m 53s"
+    }
+  ]
+}
