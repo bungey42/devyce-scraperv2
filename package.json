@@ -1,0 +1,12 @@
+{
+  "name": "devyce-scraper",
+  "version": "1.0.0",
+  "description": "Automated scraper for Devyce live call stats",
+  "main": "devyce-scraper.js",
+  "scripts": {
+    "start": "node devyce-scraper.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.10.0"
+  }
+}

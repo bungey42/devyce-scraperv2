@@ -1,0 +1,72 @@
+[
+  {
+    "Name": "Reece Beale",
+    "Inbound calls": 10,
+    "Outbound calls": 120,
+    "Total Calls": 130,
+    "Total Duration": "1h 20m 14s"
+  },
+  {
+    "Name": "Jack Perks",
+    "Inbound calls": 14,
+    "Outbound calls": 110,
+    "Total Calls": 124,
+    "Total Duration": "3h 16m 44s"
+  },
+  {
+    "Name": "James Gleeson",
+    "Inbound calls": 16,
+    "Outbound calls": 66,
+    "Total Calls": 82,
+    "Total Duration": "3h 3m 58s"
+  },
+  {
+    "Name": "Ewan Odion",
+    "Inbound calls": 12,
+    "Outbound calls": 66,
+    "Total Calls": 78,
+    "Total Duration": "4h 29m 10s"
+  },
+  {
+    "Name": "Matt Owen",
+    "Inbound calls": 6,
+    "Outbound calls": 64,
+    "Total Calls": 70,
+    "Total Duration": "2h 29m 2s"
+  },
+  {
+    "Name": "Pelumi Salau",
+    "Inbound calls": 8,
+    "Outbound calls": 46,
+    "Total Calls": 54,
+    "Total Duration": "3h 27m 14s"
+  },
+  {
+    "Name": "Elaine Connell",
+    "Inbound calls": 12,
+    "Outbound calls": 40,
+    "Total Calls": 52,
+    "Total Duration": "1h 32m 16s"
+  },
+  {
+    "Name": "Oscar Dixon-Barrow",
+    "Inbound calls": 18,
+    "Outbound calls": 36,
+    "Total Calls": 54,
+    "Total Duration": "2h 20m 54s"
+  },
+  {
+    "Name": "Phil Boshier",
+    "Inbound calls": 10,
+    "Outbound calls": 26,
+    "Total Calls": 36,
+    "Total Duration": "1h 39m 20s"
+  },
+  {
+    "Name": "Hannah Lawry",
+    "Inbound calls": 6,
+    "Outbound calls": 26,
+    "Total Calls": 32,
+    "Total Duration": "2h 35m 44s"
+  }
+]
