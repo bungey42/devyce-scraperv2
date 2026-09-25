@@ -1,72 +1,72 @@
 [
   {
-    "Name": "Joe Bungey",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
-  },
-  {
-    "Name": "Dave Madden",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
-  },
-  {
-    "Name": "Elaine Connell",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Name": "James Gleeson",
+    "Inbound calls": 8,
+    "Outbound calls": 52,
+    "Total Calls": 60,
+    "Total Duration": "1h 34m 28s"
   },
   {
     "Name": "Jack Perks",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
-  },
-  {
-    "Name": "Phil Boshier",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
-  },
-  {
-    "Name": "Charlotte Berrow",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Inbound calls": 12,
+    "Outbound calls": 30,
+    "Total Calls": 42,
+    "Total Duration": "0h 55m 2s"
   },
   {
     "Name": "Jack Wheeler",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Inbound calls": 6,
+    "Outbound calls": 30,
+    "Total Calls": 36,
+    "Total Duration": "1h 9m 38s"
   },
   {
-    "Name": "Hannah Lawry",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Name": "Matt Owen",
+    "Inbound calls": 6,
+    "Outbound calls": 30,
+    "Total Calls": 36,
+    "Total Duration": "0h 53m 14s"
   },
   {
-    "Name": "Daniela Kent",
-    "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Name": "Pelumi Salau",
+    "Inbound calls": 10,
+    "Outbound calls": 30,
+    "Total Calls": 40,
+    "Total Duration": "1h 8m 28s"
   },
   {
-    "Name": "Oscar Dixon-Barrow",
+    "Name": "Eden Smith",
     "Inbound calls": 0,
-    "Outbound calls": 0,
-    "Total Calls": 0,
-    "Total Duration": "0h 0m 0s"
+    "Outbound calls": 24,
+    "Total Calls": 24,
+    "Total Duration": "0h 11m 46s"
+  },
+  {
+    "Name": "Ewan Odion",
+    "Inbound calls": 0,
+    "Outbound calls": 24,
+    "Total Calls": 24,
+    "Total Duration": "0h 17m 12s"
+  },
+  {
+    "Name": "Charlotte Berrow",
+    "Inbound calls": 2,
+    "Outbound calls": 20,
+    "Total Calls": 22,
+    "Total Duration": "0h 50m 36s"
+  },
+  {
+    "Name": "Summer Bolitho",
+    "Inbound calls": 8,
+    "Outbound calls": 18,
+    "Total Calls": 26,
+    "Total Duration": "1h 42m 10s"
+  },
+  {
+    "Name": "Reece Beale",
+    "Inbound calls": 0,
+    "Outbound calls": 14,
+    "Total Calls": 14,
+    "Total Duration": "0h 33m 34s"
   }
 ]
