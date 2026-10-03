@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devyce Call Stats | mustard jobs</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f3f3;
+      padding: 20px;
+      color: #333;
+      margin: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    header img {
+      height: 40px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    th {
+      background-color: #eaeaea;
+    }
+    .green { background-color: #d4edda; }
+    .amber { background-color: #fff3cd; }
+    .red { background-color: #f8d7da; }
+    .legend {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    .legend span {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+    .green-label { background-color: #d4edda; }
+    .amber-label { background-color: #fff3cd; }
+    .red-label { background-color: #f8d7da; }
+    #toggleView {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        padding: 6px;
+        font-size: 0.8rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      #toggleView {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="mustard_green_RGB_black.png" alt="mustard jobs logo">
+      <h2>📞 Devyce Live Call Stats</h2>
+    </header>
+
+    <div>
+      <label for="toggleView">View:</label>
+      <select id="toggleView">
+        <option value="daily">Today</option>
+        <option value="weekly">This Week</option>
+      </select>
+    </div>
+    <p id="lastUpdated"></p>
+    <table id="callTable">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <div class="legend">
+      <strong>Legend:</strong>
+      <span class="green-label">90%+ of target</span>
+      <span class="amber-label">60–89%</span>
+      <span class="red-label">Below 60%</span>
+    </div>
+  </div>
+
+  <script>
+    const dailyUrl = 'call-stats.json';
+    const weeklyUrl = 'weekly-summary.json';
+
+    const parseDurationToSeconds = str => {
+      const parts = str.match(/(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+)s)?/);
+      const h = parseInt(parts[1] || 0), m = parseInt(parts[2] || 0), s = parseInt(parts[3] || 0);
+      return h * 3600 + m * 60 + s;
+    };
+
+    let currentSort = { key: 'Total Duration', ascending: false };
+
+    const renderTable = (data, viewType) => {
+      const table = document.getElementById('callTable');
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+      if (!data.length) return;
+
+      const headers = ['Name', 'Inbound calls', 'Outbound calls', 'Total Calls', 'Total Duration'];
+      const headerRow = document.createElement('tr');
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        th.addEventListener('click', () => {
+          const key = h;
+          if (currentSort.key === key) {
+            currentSort.ascending = !currentSort.ascending;
+          } else {
+            currentSort = { key, ascending: true };
+          }
+          renderTable(data, viewType);
+        });
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      const key = currentSort.key;
+      const ascending = currentSort.ascending;
+
+      data.sort((a, b) => {
+        let valA = a[key];
+        let valB = b[key];
+        if (key === 'Total Duration') {
+          valA = parseDurationToSeconds(valA);
+          valB = parseDurationToSeconds(valB);
+        } else if (!isNaN(valA) && !isNaN(valB)) {
+          valA = Number(valA);
+          valB = Number(valB);
+        } else {
+          valA = valA.toString();
+          valB = valB.toString();
+        }
+        return ascending ? valA - valB : valB - valA;
+      });
+
+      const now = new Date();
+      const workStart = new Date(now);
+      workStart.setHours(9, 0, 0, 0);
+
+      const workEnd = new Date(now);
+      workEnd.setHours(17, 0, 0, 0);
+
+      let expectedSeconds;
+
+      if (viewType === 'weekly') {
+        expectedSeconds = 36000;
+      } else {
+        if (now <= workStart) {
+          expectedSeconds = 0;
+        } else if (now >= workEnd) {
+          expectedSeconds = 7200;
+        } else {
+          const elapsed = (now - workStart) / 1000;
+          const totalWorkSeconds = (workEnd - workStart) / 1000;
+          expectedSeconds = 7200 * (elapsed / totalWorkSeconds);
+        }
+      }
+
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        const durationSec = parseDurationToSeconds(row['Total Duration']);
+        const percent = durationSec / expectedSeconds;
+        if (percent >= 0.9) tr.className = 'green';
+        else if (percent >= 0.6) tr.className = 'amber';
+        else tr.className = 'red';
+
+        headers.forEach(h => {
+          const td = document.createElement('td');
+          td.textContent = row[h] || '';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    };
+
+    const loadData = async (type) => {
+      const url = type === 'weekly' ? weeklyUrl : dailyUrl;
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        const data = Array.isArray(json) ? json : json.data || [];
+
+        renderTable(data, type);
+
+        const lastUpdated = json.lastUpdated || null;
+        if (lastUpdated) {
+          const formatted = new Date(lastUpdated).toLocaleString('en-GB');
+          document.getElementById('lastUpdated').textContent = `Last update from Devyce: ${formatted}`;
+        } else {
+          document.getElementById('lastUpdated').textContent = 'Last update from Devyce: unknown';
+        }
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
+    };
+
+    document.getElementById('toggleView').addEventListener('change', e => {
+      loadData(e.target.value);
+    });
+
+    loadData('daily');
+  </script>
+</body>
+</html>
