@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-14T01:34:10.727Z",
+  "lastUpdated": "2026-10-14T13:27:11.241Z",
   "data": [
     {
       "Name": "",
@@ -9,74 +9,74 @@
       "Total Duration": ""
     },
     {
-      "Name": "Joe Bungey",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Name": "Eden Smith",
+      "Inbound calls": "3",
+      "Outbound calls": "48",
+      "Total Calls": "51",
+      "Total Duration": "24m 49s"
     },
     {
-      "Name": "Dave Madden",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
-    },
-    {
-      "Name": "Elaine Connell",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Name": "Matt Owen",
+      "Inbound calls": "7",
+      "Outbound calls": "30",
+      "Total Calls": "37",
+      "Total Duration": "1h 15m 5s"
     },
     {
       "Name": "Jack Perks",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Inbound calls": "1",
+      "Outbound calls": "27",
+      "Total Calls": "28",
+      "Total Duration": "8m 29s"
     },
     {
-      "Name": "Phil Boshier",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Name": "James Gleeson",
+      "Inbound calls": "4",
+      "Outbound calls": "25",
+      "Total Calls": "29",
+      "Total Duration": "1h 8m 12s"
     },
     {
-      "Name": "Charlotte Berrow",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
-    },
-    {
-      "Name": "Jack Wheeler",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
-    },
-    {
-      "Name": "Hannah Lawry",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
-    },
-    {
-      "Name": "Daniela Kent",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Name": "Pelumi Salau",
+      "Inbound calls": "8",
+      "Outbound calls": "18",
+      "Total Calls": "26",
+      "Total Duration": "56m 54s"
     },
     {
       "Name": "Oscar Dixon-Barrow",
-      "Inbound calls": "0",
-      "Outbound calls": "0",
-      "Total Calls": "0",
-      "Total Duration": "0"
+      "Inbound calls": "1",
+      "Outbound calls": "17",
+      "Total Calls": "18",
+      "Total Duration": "12m 30s"
+    },
+    {
+      "Name": "Elaine Connell",
+      "Inbound calls": "3",
+      "Outbound calls": "15",
+      "Total Calls": "18",
+      "Total Duration": "16m 36s"
+    },
+    {
+      "Name": "Ewan Odion",
+      "Inbound calls": "1",
+      "Outbound calls": "15",
+      "Total Calls": "16",
+      "Total Duration": "29m 3s"
+    },
+    {
+      "Name": "Summer Bolitho",
+      "Inbound calls": "1",
+      "Outbound calls": "13",
+      "Total Calls": "14",
+      "Total Duration": "38m 38s"
+    },
+    {
+      "Name": "Holly Fisher",
+      "Inbound calls": "1",
+      "Outbound calls": "13",
+      "Total Calls": "14",
+      "Total Duration": "38m 15s"
     }
   ]
 }
